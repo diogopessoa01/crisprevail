@@ -53,7 +53,7 @@ alleles = []
 
 # Loop through reads and extract alleles within quantification window.
 for read in bam.fetch():
-    if read.is_mapped:
+    if read.is_mapped and read.mapping_quality >= 10:
         read_start = read.reference_start
         read_end = read_start + read.query_length
         if read_start > start or read_end < stop:
