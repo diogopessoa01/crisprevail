@@ -1,0 +1,45 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/diogopessoa01/crisprevail/master/assets/schema_input.json",
+    "title": "diogopessoa01/crisprevail pipeline - params.input schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "sample": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Sample name must be provided and cannot contain spaces",
+                "meta": ["id"]
+            },
+            "reference": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Reference sequence must be provided and cannot contain spaces",
+                "meta": ["reference"]
+            },
+            "protospacer": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Protospacer sequence must be provided and cannot contain spaces",
+                "meta": ["protospacer"]
+            },
+            "fastq_1": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
+                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            },
+            "fastq_2": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^([\\S\\s]*\\/)?[^\\s\\/]+\\.f(ast)?q\\.gz$",
+                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+            }
+        },
+        "required": ["sample", "reference", "protospacer", "fastq_1"]
+    }
+}

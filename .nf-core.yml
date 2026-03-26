@@ -1,0 +1,96 @@
+repository_type: pipeline
+
+nf_core_version: 3.5.2
+
+lint:
+  files_unchanged:
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - .prettierignore
+    - .prettierignore
+    - .prettierignore
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-crisprevail_logo_light.png
+    - docs/images/nf-core-crisprevail_logo_light.png
+    - docs/images/nf-core-crisprevail_logo_dark.png
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - assets/email_template.txt
+    - docs/README.md
+    - .github/CONTRIBUTING.md
+  nextflow_config:
+    - process.cpus
+    - process.memory
+    - process.time
+    - custom_config
+    - params.custom_config_version
+    - params.custom_config_base
+    - manifest.name
+    - manifest.homePage
+  nf_test_content: false
+  multiqc_config:
+    - report_comment
+  files_exist:
+    - .github/workflows/nf-test.yml
+    - .github/actions/get-shards/action.yml
+    - .github/actions/nf-test/action.yml
+    - nf-test.config
+    - tests/default.nf.test
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - CHANGELOG.md
+    - assets/email_template.html
+    - assets/sendmail_template.txt
+    - assets/email_template.txt
+    - conf/igenomes.config
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - .prettierignore
+    - .prettierrc.yml
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-crisprevail_logo_light.png
+    - docs/images/nf-core-crisprevail_logo_light.png
+    - docs/images/nf-core-crisprevail_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+  readme:
+    - nextflow_badge
+    - nextflow_badge
+    - nfcore_template_badge
+  included_configs: false
+
+template:
+  org: diogopessoa01
+  name: crisprevail
+  description: This pipeline quantifies gRNA CRISPR edits.
+  author: Diogo Pessoa
+  version: 1.0.0dev
+  force: false
+  outdir: .
+  skip_features:
+    - github
+    - github_badges
+    - changelog
+    - nf-test
+    - igenomes
+    - nf_core_configs
+    - code_linters
+    - changelog
+    - slackreport
+    - vscode
+    - codespaces
+    - rocrate
+    - email
+  is_nfcore: false
