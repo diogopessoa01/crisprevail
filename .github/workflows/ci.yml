@@ -15,5 +15,4 @@ jobs:
       - with:
           version: 'latest-stable'
       - name: Integration test
-      - run: | 
-        nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
+      - run: nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
