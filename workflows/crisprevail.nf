@@ -65,8 +65,6 @@ workflow CRISPREVAIL {
         ch_samplesheet
     )
 
-    // Need to check if sample and reference channels match ids.
-
     MINIMAP2_ALIGN (
         FLASH.out.merged,
         FASTA_BUILDER.out.reference,
@@ -83,8 +81,8 @@ workflow CRISPREVAIL {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mulled-v2-79e7547817e59d678e317e92cf0d38d73b34c7c9:aa4f82a8dea2cad16d9bc291ccad3b38645c5933-0' :
-        'biocontainers/mulled-v2-79e7547817e59d678e317e92cf0d38d73b34c7c9:aa4f82a8dea2cad16d9bc291ccad3b38645c5933-0' }"
+	'https://depot.galaxyproject.org/singularity/mulled-v2-79e7547817e59d678e317e92cf0d38d73b34c7c9:aa4f82a8dea2cad16d9bc291ccad3b38645c5933-0' :
+	'biocontainers/mulled-v2-79e7547817e59d678e317e92cf0d38d73b34c7c9:aa4f82a8dea2cad16d9bc291ccad3b38645c5933-0' }"
 
 	input:
 	tuple val(meta), path(bam)
