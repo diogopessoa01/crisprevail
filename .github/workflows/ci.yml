@@ -1,0 +1,19 @@
+name: Pipeline CI
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Nextflow
+      - uses: nf-core/setup-nextflow@v2
+      - with:
+          version: 'latest-stable'
+      - name: Integration test
+      - run: | 
+        nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
