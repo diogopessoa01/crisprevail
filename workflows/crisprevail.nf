@@ -25,6 +25,7 @@ workflow CRISPREVAIL {
     take:
     ch_samplesheet // channel: samplesheet read in from --input
     main:
+    def rmd = file("https://raw.githubusercontent.com/diogopessoa01/crisprevail/refs/heads/dev/bin/report.Rmd")
 
     ch_versions = channel.empty()
     ch_multiqc_files = channel.empty()
@@ -102,7 +103,7 @@ workflow CRISPREVAIL {
 	MINIMAP2_ALIGN.out.index
     )
 
-    process REPORT {
+    process PLOT {
 
     tag "$meta.id"
     label 'process_medium'
@@ -116,16 +117,47 @@ workflow CRISPREVAIL {
 	tuple val(meta), path(indel_csv)
 
 	output:
-	tuple val(meta), path('*.png'), emit: png_report
+	tuple val(meta), path('*.png'), emit: allele_plot
 
 	script:
 	"""
-        report.py ${meta.id} ${indel_csv}
+        plot.py ${meta.id} ${indel_csv}
+	"""
+    }
+
+    PLOT (
+	ALLELE.out.allele_csv
+    )
+
+    process REPORT {
+
+    tag "$meta.id"
+    label 'process_medium'
+
+    conda "${moduleDir}/environment.yml"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/mulled-v2-1e130ecd2c6e47cf1d1e8de7f0c8b6446e279444:8b03ee02d3fd4c591e25416396609e9d06cdc711-0' :
+        'biocontainers/mulled-v2-1e130ecd2c6e47cf1d1e8de7f0c8b6446e279444:a78c87b1a58c951f19eb06f4a8401926293866b6-2' }"
+
+	input:
+	tuple val(meta), path(indel_csv)
+        tuple val(meta2), path(allele_fig)
+        path(rmd)
+
+	output:
+	tuple val(meta), path('*.html'), emit: html_report
+
+	script:
+	"""
+        echo '${rmd.text}' > ${meta.id}.Rmd
+        Rscript -e 'rmarkdown::render("${meta.id}.Rmd", "html_document", params = list(sample_id = "${meta.id}", report_file = "${indel_csv}", fig = "${allele_fig}"))'
 	"""
     }
 
     REPORT (
-	ALLELE.out.allele_csv
+	ALLELE.out.allele_csv,
+        PLOT.out.allele_plot,
+        rmd
     )
 
     //
