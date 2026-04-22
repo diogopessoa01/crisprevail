@@ -25,7 +25,7 @@ workflow CRISPREVAIL {
     take:
     ch_samplesheet // channel: samplesheet read in from --input
     main:
-    def rmd = file("crisprevail/bin/report.Rmd")
+    def rmd = file("https://raw.githubusercontent.com/diogopessoa01/crisprevail/refs/heads/dev/bin/report.Rmd")
 
     ch_versions = channel.empty()
     ch_multiqc_files = channel.empty()
@@ -141,24 +141,25 @@ workflow CRISPREVAIL {
 
 	input:
 	tuple val(meta), path(indel_csv)
-        path(rmd)
         tuple val(meta2), path(allele_fig)
+        path(rmd)
 
 	output:
 	tuple val(meta), path('*.html'), emit: html_report
 
 	script:
 	"""
-        cat ${rmd} > ${meta.id}.Rmd
+        echo '${rmd.text}' > ${meta.id}.Rmd
         Rscript -e 'rmarkdown::render("${meta.id}.Rmd", "html_document", params = list(sample_id = "${meta.id}", report_file = "${indel_csv}", fig = "${allele_fig}"))'
 	"""
     }
 
     REPORT (
 	ALLELE.out.allele_csv,
-        rmd,
-        PLOT.out.allele_plot
+        PLOT.out.allele_plot,
+        rmd
     )
+
     //
     // Collate and save software versions
     //
