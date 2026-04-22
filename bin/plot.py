@@ -44,10 +44,10 @@ indel_rate = 100 - wild_type
 vals = [wild_type, indel_rate]
 labels = ['Unmodified%', 'Modified%']
 
-plt.pie(vals, labels = labels, autopct = '%1.0f%%')
-plt.legend()
-plt.savefig(sample_id + '.png', bbox_inches = 'tight')
-plt.clf()
+#plt.pie(vals, labels = labels, autopct = '%1.0f%%')
+#plt.legend()
+#plt.savefig(sample_id + '.png', bbox_inches = 'tight')
+#plt.clf()
 
 y = [round(x, 3) for x in report.percentage]
 

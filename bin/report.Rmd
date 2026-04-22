@@ -1,0 +1,62 @@
+---
+title: "CRISPR-based gene editing"
+date: "`r Sys.Date()`"
+params:
+  sample_id:
+    value: x
+  report_file:
+    value: x
+  fig:
+    value: x
+output: 
+  html_document:
+    theme: cosmo
+    toc: yes
+    toc_float:
+      collapsed: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load libraries.
+library(ggplot2)
+library(knitr)
+
+# Load data.
+sample_id <- params$sample_id
+input_file <- params$report_file
+fig_file <- params$fig
+
+report <- read.table(input_file, header = T, sep = ",")
+report$percentage <- round(report$percentage, 3)
+
+for (i in 1:nrow(report)) {
+    allele <- as.character(report[i, "allele"])
+    x <- unique(unlist(strsplit(allele, "")))
+    if (length(x) == 1 & x[1] == "M") {
+        wild_type <- report[i, "percentage"]
+    }
+}
+
+indel_rate <- 100 - wild_type
+
+vals <- c(wild_type, indel_rate)
+labels <- c("Unmodified%", "Modified%")
+df <- data.frame(group = labels, percentage = vals)
+```
+
+### Indel rate.
+```{r}
+knitr::kable(df)
+```
+
+### Allele plot.
+```{r fig.align = "center"}
+knitr::include_graphics(fig_file)
+```
+
+### Allele fractions.
+```{r}
+knitr::kable(report)
+```
